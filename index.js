@@ -9,12 +9,17 @@ const PORT = process.env.PORT || 5000;
 
 //INIT middleware 
 app.use(logger);
-//GET "/api/members returns JSON"
-app.get("/api/members", (req,res) => 
-{
+
+//GET all "/api/members returns JSON"
+app.get("/api/members", (req,res) => {
   res.json(members);
 })
- 
+//GET single member 
+app.get("/api/members/:name", (req,res) => {
+  res.send(members.filter(mem => {
+    return mem.name == req.params.name
+  }))
+})
 //set static folder 
 app.use(express.static(path.join(__dirname, "public")))
 
