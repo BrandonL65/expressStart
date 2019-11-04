@@ -14,12 +14,22 @@ app.use(logger);
 app.get("/api/members", (req,res) => {
   res.json(members);
 })
+
 //GET single member 
 app.get("/api/members/:name", (req,res) => {
-  res.send(members.filter(mem => {
+  let found = members.filter(mem => {
     return mem.name == req.params.name
-  }))
+  })
+  if (found.length > 0) {
+    res.json(found)
+  }
+  else {
+    res.status(400)
+    res.json({"status": "No user found"})
+  }
 })
+
+
 //set static folder 
 app.use(express.static(path.join(__dirname, "public")))
 
